@@ -1,5 +1,6 @@
 package ru.savvy.config;
 
+import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -23,9 +24,9 @@ public class SpringConfiguration {
 
         localContainerEntityManagerFactoryBean.setJpaDialect(new EclipseLinkJpaDialect());
         localContainerEntityManagerFactoryBean.setJpaVendorAdapter(new EclipseLinkJpaVendorAdapter());
-        localContainerEntityManagerFactoryBean.getJpaPropertyMap().put("eclipselink.ddl-generation", "create-or-extend-tables");
-        localContainerEntityManagerFactoryBean.getJpaPropertyMap().put("eclipselink.allow-zero-id","false");
-        localContainerEntityManagerFactoryBean.getJpaPropertyMap().put("eclipselink.weaving", "false");
+        localContainerEntityManagerFactoryBean.getJpaPropertyMap().put(PersistenceUnitProperties.WEAVING_CHANGE_TRACKING, "true");
+        localContainerEntityManagerFactoryBean.getJpaPropertyMap().put(PersistenceUnitProperties.DDL_GENERATION, "create-or-extend-tables");
+        localContainerEntityManagerFactoryBean.getJpaPropertyMap().put(PersistenceUnitProperties.WEAVING, "false");
 
         return localContainerEntityManagerFactoryBean;
     }

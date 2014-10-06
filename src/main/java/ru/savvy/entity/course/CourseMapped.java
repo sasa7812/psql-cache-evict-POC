@@ -1,5 +1,7 @@
 package ru.savvy.entity.course;
 
+import org.eclipse.persistence.indirection.ValueHolderInterface;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -46,4 +48,24 @@ public class CourseMapped implements Serializable {
     public void setLevels(List<Level> levels) {
         this.levels = levels;
     }
+
+    @Override
+    public int hashCode() {
+        System.err.println(" === Hash");
+        return ((Long)(Math.round(Math.random()*100000))).intValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        System.err.println(" === Equals");
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        System.err.println(" === TO String");
+        return "CourseMapped" + Math.random();
+    }
+
+
 }

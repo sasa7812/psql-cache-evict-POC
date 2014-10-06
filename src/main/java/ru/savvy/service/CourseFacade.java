@@ -2,6 +2,7 @@ package ru.savvy.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.savvy.entity.Course;
 import ru.savvy.entity.course.Block;
 import ru.savvy.entity.course.CourseMapped;
@@ -22,7 +23,18 @@ public class CourseFacade {
     @Autowired
     CourseRepository courseRepository;
 
-    public void createCourse(){
+
+
+    public Long createCourse(){
+        Course course = getNewCourse();
+
+
+        courseRepository.saveAndFlush(course);
+        return  course.getId();
+
+    }
+
+    public Course getNewCourse() {
         // --- lessons
         List<Lesson> lessons = new ArrayList<>();
         lessons.add(new Lesson("Another one lesson", new Date(), 1000l));
@@ -47,7 +59,18 @@ public class CourseFacade {
         courseMapped.setLevels(levels);
 
         course.setCourseMapped(courseMapped);
+        return course;
+    }
 
+    @Transactional
+    public long updateCourse(){
+        Course course = courseRepository.findAll().get(0);
+        CourseMapped courseMapped = course.getCourseMapped();
+        courseMapped.setName("Another");
+        course.setCourseMapped(courseMapped);
+        courseMapped.getLevels().remove(0);
         courseRepository.saveAndFlush(course);
+        return course.getId();
+
     }
 }

@@ -1,11 +1,12 @@
 package ru.savvy.entity.course;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author sasa <a href="mailto:sasa7812@gmail.com">Alexander Nikitin</a>
  */
-public class Block{
+public class Block implements Serializable {
     private String name;
     private List<Lesson> lessons;
 

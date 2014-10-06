@@ -64,4 +64,9 @@ public class TestController {
     public List<Course> testJsonRead(){
         return courseRepository.findAll();
     }
+
+    @RequestMapping(value = "updatetest")
+    public String updateCourse(){
+        return "Course updated id: " + courseFacade.updateCourse();
+    }
 }

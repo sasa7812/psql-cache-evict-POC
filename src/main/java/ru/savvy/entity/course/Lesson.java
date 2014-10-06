@@ -1,11 +1,12 @@
 package ru.savvy.entity.course;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author sasa <a href="mailto:sasa7812@gmail.com">Alexander Nikitin</a>
  */
-public class Lesson {
+public class Lesson implements Serializable {
     private String name;
     private Date startsAt;
     private Long length;
