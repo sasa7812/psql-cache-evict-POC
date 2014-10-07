@@ -56,12 +56,6 @@ public class CourseMapped implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        System.err.println(" === Equals");
-        return false;
-    }
-
-    @Override
     public String toString() {
         System.err.println(" === TO String");
         return "CourseMapped" + Math.random();

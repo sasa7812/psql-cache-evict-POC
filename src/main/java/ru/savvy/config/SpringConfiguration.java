@@ -27,6 +27,7 @@ public class SpringConfiguration {
         localContainerEntityManagerFactoryBean.getJpaPropertyMap().put(PersistenceUnitProperties.WEAVING_CHANGE_TRACKING, "true");
         localContainerEntityManagerFactoryBean.getJpaPropertyMap().put(PersistenceUnitProperties.DDL_GENERATION, "create-or-extend-tables");
         localContainerEntityManagerFactoryBean.getJpaPropertyMap().put(PersistenceUnitProperties.WEAVING, "false");
+        localContainerEntityManagerFactoryBean.getJpaPropertyMap().put(PersistenceUnitProperties.LOGGING_LEVEL, "FINE");
 
         return localContainerEntityManagerFactoryBean;
     }

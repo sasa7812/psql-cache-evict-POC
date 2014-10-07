@@ -22,6 +22,10 @@ import java.io.IOException;
 @Entity
 @ChangeTracking(ChangeTrackingType.DEFERRED)
 public class Course extends AbstractEntity {
+
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "course_mapped", columnDefinition = "json")
     @Convert(converter = CourseMappedConverter.class) // all the magic has gone to converter class
     private String courseMapped;
@@ -68,4 +72,11 @@ public class Course extends AbstractEntity {
         cachedCourseObject = courseMapped;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
