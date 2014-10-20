@@ -12,13 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.savvy.Main;
 import ru.savvy.entity.Course;
 import ru.savvy.entity.course.CourseMapped;
-import ru.savvy.entity.course.Level;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +27,7 @@ import java.util.List;
 @WebAppConfiguration
 @Transactional
 @TransactionConfiguration(defaultRollback = false)
-public class IntegrationTest {
+public class JsonMappingIntegrationTest {
 
     @Autowired
     private TestService testService;
@@ -37,43 +35,12 @@ public class IntegrationTest {
     @PersistenceContext
     EntityManager em;
 
-
-    private void checkCoursesQuantity(final int quantity){
-        String jpql = "select c from Course c";
-        Query q = em.createQuery(jpql);
-        List<Course> courses = q.getResultList();
-        Assert.assertEquals(quantity, courses.size());
-    }
-
-    private Level makeLevel(int number){
-        Level level = new Level();
-        level.setName("Level " + number);
-        return level;
-    }
-
-    private Course makeCourse(String name, int levelsCount){
-        Course course = new Course();
-        course.setName(name);
-        CourseMapped courseMapped = new CourseMapped();
-        courseMapped.setName(name);
-        course.setCourseMapped(courseMapped);
-        course.getCourseMapped().setLevels(new ArrayList<>());
-        for(int i = 0; i < levelsCount; i++){
-            course.getCourseMapped().getLevels().add(makeLevel(i));
-        }
-        return course;
-    }
-
-
     /**
      * Delete all courses
      */
     @Test
     public void test1() throws Exception {
-        String jpql = "delete from Course";
-        Query q = em.createQuery(jpql);
-        q.executeUpdate();
-        checkCoursesQuantity(0);
+        TestCommons.clearCources(em);
     }
 
     /**
@@ -82,16 +49,16 @@ public class IntegrationTest {
      */
     @Test
     public void test2() throws Exception {
-        Course course1 = makeCourse("First one", 2);
-        Course course2 = makeCourse("Second one", 3);
-        Course course3 = makeCourse("Third one", 0);
+        Course course1 = TestCommons.makeCourse("First one", 2);
+        Course course2 = TestCommons.makeCourse("Second one", 3);
+        Course course3 = TestCommons.makeCourse("Third one", 0);
 
         em.persist(course1);
         em.persist(course2);
         em.persist(course3);
 
         em.flush();
-        checkCoursesQuantity(3);
+        TestCommons.checkCoursesQuantity(3, em);
     }
 
     /**
@@ -131,6 +98,7 @@ public class IntegrationTest {
     public void test5() throws Exception {
         String jpql = "SELECT c FROM Course c where c.name = :name";
         TypedQuery<Course> q = em.createQuery(jpql, Course.class);
+        em.createNativeQuery("",Course.class);
         q.setParameter("name", "Second one");
         Course course = q.getSingleResult();
         CourseMapped courseMapped = course.getCourseMapped();
